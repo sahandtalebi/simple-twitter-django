@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="feed__header">
+        <h2>خانه</h2>
+    </div>
+
+
+    <form method="get">
+
+        <div class="tweetbox__input">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="tweetBox__tweetButton">جستجو</button>
+
+    </form>
+    <hr>
+
+    {% for post in posts %}
+
+        <div class="post">
+            <div class="post__avatar">
+                <img src="https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146" alt="">
+            </div>
+
+            <div class="post__body">
+                <div class="post__header">
+                    <div class="post__headerText">
+                        <h3>
+                            {{ post.user.username }}
+                            <span class="post__headerSpecial"><span
+                                    class="material-icons post__badge">  </span>@{{ post.user.username }}</span>
+                        </h3>
+                    </div>
+                    <div class="post__headerDescription">
+                        <a href="{{ post.get_absolute_url }}">
+                            <p>{{ post.body|truncatewords:50 }}</p>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- post ends -->
+
+    {% endfor %}
+    </div>
+
+{% endblock %}

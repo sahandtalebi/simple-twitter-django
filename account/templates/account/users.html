@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for user in users %}
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.username }}</h5>
+                <p class="card-text">{{ user.posts.count }} تعداد پست های کاربر: </p>
+                <a href="{% url 'account:user_profile' user.id %}" class="btn btn-primary text-light">دیدن پست های کاربر</a>
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% endblock %}

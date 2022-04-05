@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <style>
+
+        .card {
+            width: 400px;
+            border: none;
+            border-radius: 10px;
+            background-color: #fff
+        }
+
+        .stats {
+            background: #f2f5f8 !important;
+            color: #000 !important
+        }
+
+        .articles {
+            font-size: 10px;
+            color: #a1aab9
+        }
+
+        .number1 {
+            font-weight: 500
+        }
+
+        .followers {
+            font-size: 10px;
+            color: #a1aab9
+        }
+
+        .number2 {
+            font-weight: 500
+        }
+
+        .rating {
+            font-size: 10px;
+            color: #a1aab9
+        }
+
+        .number3 {
+            font-weight: 500
+        }
+    </style>
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="card p-3">
+            <div class="d-flex align-items-center">
+                <div class="image"><img
+                        src="https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"
+                        class="rounded" width="155"></div>
+                <div class="ml-3 w-100">
+                    <h4 class="mb-0 mt-0">{{ user.get_fullname }}</h4> <span>{{ user.username }}</span>
+                    <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                        <div class="d-flex flex-column"><span class="articles">پست ها</span> <span
+                                class="number1">{{ posts.count }}</span></div>
+                        <div class="d-flex flex-column"><span class="followers">دنبال شونده ها</span> <span
+                                class="number2">{{ user.following.count }}</span>
+
+                        </div>
+                        <div class="d-flex flex-column"><span class="followers">دنبال کننده ها</span> <span
+                                class="number2">{{ user.followers.count }}</span>
+                        </div>
+                    </div>
+                    <div class="button mt-2 d-flex flex-row align-items-center">
+                        {% if request.user.id == user.id %}
+                            <a href="{% url 'home:post_create' %}" class="btn btn-sm btn-outline-primary w-100"
+                               type="submit">ساخت پست</a>
+
+                            <a href="{% url 'account:user_update' request.user.id %}"
+                               class="btn btn-sm btn-outline-primary w-100"
+                               type="submit">ویرایش پروفایل</a>
+                        {% endif %}
+
+                        {% if  request.user.id != user.id and is_following %}
+                            <a href="{% url 'account:user_unfollow' user.id %}"
+                               class="btn btn-sm btn-danger w-100 ml-2 text-light">UnFollow</a>
+                        {% elif  request.user.id != user.id and not is_following %}
+                            <a href="{% url 'account:user_follow' user.id %}"
+                               class="btn btn-sm btn-primary w-100 ml-2 text-dark">Follow</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% for post in posts %}
+        <div class="post">
+            <div class="post__avatar">
+                <img src="https://ps.w.org/simple-user-avatar/assets/icon-256x256.png?rev=2413146"
+                     alt="">
+            </div>
+
+            <div class="post__body">
+                <div class="post__header">
+                    <div class="post__headerText">
+                        <h3>
+                            {{ post.user.username }}
+                            <span class="post__headerSpecial"><span
+                                    class="material-icons post__badge">  </span>@{{ post.user.username }}</span>
+                        </h3>
+                    </div>
+                    <div class="post__headerDescription">
+                        {#                            <a href="{% url 'home:post_detail' post.post_id post.slug %}"> </a>#}
+                        <a href="{{ post.get_absolute_url }}">
+                            <p>{{ post.body|truncatewords:50 }}</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="post__footer">
+                    <span class="material-icons"> لایک می </span>
+                </div>
+            </div>
+        </div>
+        <!-- post ends -->
+
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitter markup</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static '' %}css/styles.css"/>
+    {#    <link rel="stylesheet" href="{% static '' %}css/global.css"/>#}
+    <link rel="stylesheet" href="{% static '' %}css/blocks/layout.css"/>
+    <link rel="stylesheet" href="{% static '' %}css/blocks/brand.css"/>
+    <link rel="stylesheet" href="{% static '' %}css/blocks/sidebar-menu.css"/>
+    <link rel="stylesheet" href="{% static '' %}css/blocks/tweet.css"/>
+    <link rel="stylesheet" href="{% static '' %}css/blocks/trends-for-you.css"/>
+    <link rel="stylesheet" href="{% static '' %}css/blocks/who-to-follow.css"/>
+
+</head>
+<body>
+<div class="layout">
+    <div class="layout__left-sidebar">
+        <img src="{% static '' %}./svg/twitter.svg" class="brand"/>
+
+        <div class="sidebar-menu">
+            <div class="sidebar-menu__item sidebar-menu__item--active">
+                <a href="{% url 'home:home' %}">
+                    <img src="{% static '' %}./svg/home.svg" class="sidebar-menu__item-icon"/>
+                    خانه
+                </a>
+            </div>
+            <div class="sidebar-menu__item">
+                <a href="{% url 'home:post-explore' %}">
+
+                    <img src="{% static '' %}./svg/explore.svg" class="sidebar-menu__item-icon"/>
+                    اکسپلور
+                </a>
+            </div>
+
+
+
+
+            {% if request.user.is_authenticated %}
+                <div class="sidebar-menu__item">
+                    <img
+                            src="{% static '' %}./svg/notifications.svg"
+                            class="sidebar-menu__item-icon"
+                    />
+                    <a href="{% url 'account:user_all' %}">
+                        تمامی کاربران
+                    </a>
+                </div>
+                <div class="sidebar-menu__item">
+                    <a href="{% url 'account:user_profile' request.user.id %}">
+                        <img src="{% static '' %}./svg/more.svg" class="sidebar-menu__item-icon"/>
+                        پروفایل
+                    </a>
+                </div>
+
+                <div class="sidebar-menu__item">
+                    <a href="{% url 'account:user_logout' %}">
+                        <img src="{% static '' %}./svg/profile.svg" class="sidebar-menu__item-icon"/>
+                        بیرون رفتن
+                    </a>
+                </div>
+            {% else %}
+
+                <div class="sidebar-menu__item">
+                    <a href="{% url 'account:user_register' %}">
+                        <img src="{% static '' %}./svg/profile.svg" class="sidebar-menu__item-icon"/>
+                        ثبت نام
+                    </a>
+                </div>
+
+                <div class="sidebar-menu__item">
+                    <a href="{% url 'account:user_login' %}">
+                        <img src="{% static '' %}./svg/profile.svg" class="sidebar-menu__item-icon"/>
+                        لاگین
+                    </a>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
+    <div class="layout__main">
+
+
+        <div class="tweet">
+            <div class="trends-for-you__block">
+                {% include 'inc/message.html' %}
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="layout__right-sidebar-container">
+        <div class="layout__right-sidebar">
+            <div class="trends-for-you">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
